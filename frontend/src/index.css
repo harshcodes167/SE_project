@@ -1,0 +1,251 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}
+
+/* Theme variables (light by default). Toggle .dark on <html> to switch */
+:root {
+  --page-bg: #f8fafc; /* matches secondary-50 */
+  --card-bg: #ffffff;
+  --card-border: #e6eef6; /* light border */
+  --text-primary: #0f172a; /* secondary-900 */
+  --nav-bg: rgb(51 65 85);
+}
+
+.dark {
+  /* Use specific grey for background and black for cards as requested */
+  --page-bg: rgb(74 78 82); /* specific grey background */
+  --card-bg: #000000; /* pure black for cards and dropdowns */
+  --card-border: rgba(255,255,255,0.1);
+  --text-primary: #ffffff; /* pure white text */
+  --text-muted: rgba(255,255,255,0.85);
+  --nav-bg: #000000; /* pure black navbar */
+  --dropdown-bg: #000000; /* pure black dropdowns */
+}
+
+/* Base dark mode styles for document and text */
+.dark body {
+  background: var(--page-bg);
+  color: var(--text-primary);
+}
+
+/* Dark mode styles for cards, nav menus, and dropdowns */
+.dark .card,
+.dark [role="dialog"],
+.dark .dropdown-content {
+  background: var(--card-bg) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--card-border) !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Base dark mode background for all main content areas */
+.dark .min-h-screen {
+  background-color: rgb(74 78 82) !important;
+}
+
+/* Stat card badges and icons in dark mode */
+.dark .bg-primary-100,
+.dark .bg-green-100,
+.dark .bg-red-100 {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark .text-primary-600,
+.dark .text-green-600,
+.dark .text-red-600 {
+  color: var(--text-primary) !important;
+}
+
+/* Override all secondary text colors in dark mode for better contrast */
+.dark .text-secondary-900,
+.dark .text-secondary-800,
+.dark .text-secondary-700 {
+  color: var(--text-primary) !important;
+}
+
+.dark .text-secondary-600,
+.dark .text-secondary-500,
+.dark .text-secondary-400 {
+  color: var(--text-muted) !important;
+}
+
+/* Status badges in dark mode */
+.dark .bg-green-100.text-green-800 {
+  background: rgba(34, 197, 94, 0.2) !important;
+  color: rgb(134, 239, 172) !important;
+}
+
+.dark .bg-yellow-100.text-yellow-800 {
+  background: rgba(234, 179, 8, 0.2) !important;
+  color: rgb(253, 224, 71) !important;
+}
+
+.dark .bg-red-100.text-red-800 {
+  background: rgba(239, 68, 68, 0.2) !important;
+  color: rgb(252, 165, 165) !important;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink {
+  from { border-color: transparent }
+  to { border-color: currentColor }
+}
+
+@keyframes scale-in {
+  from { transform: translateX(-50%) scaleX(0); }
+  to { transform: translateX(-50%) scaleX(1); }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-shadow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(99, 102, 241, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary-600 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200;
+    @apply hover:bg-primary-700 hover:shadow-lg hover:-translate-y-0.5;
+    @apply active:transform active:translate-y-0;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary-200 text-secondary-800 font-medium py-2 px-4 rounded-lg transition-all duration-200;
+    @apply hover:bg-secondary-300 hover:shadow-lg hover:-translate-y-0.5;
+    @apply active:transform active:translate-y-0;
+  }
+  
+  .btn-danger {
+    @apply bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200;
+    @apply hover:bg-red-700 hover:shadow-lg hover:-translate-y-0.5;
+    @apply active:transform active:translate-y-0;
+  }
+  
+  .input-field {
+    @apply w-full px-3 py-2 border border-secondary-300 rounded-lg transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent focus:shadow-lg;
+  }
+
+  /* Make search/filter inputs use a white background with black text so they are readable
+     when the surrounding card or navbar is dark. We scope this to .search-card (used
+     on the home filters container) to avoid changing inputs globally. */
+  .search-card .input-field {
+    background: #ffffff;
+    color: #111827; /* black-ish for inputs */
+    border-color: rgba(15, 23, 42, 0.06);
+  }
+
+  .search-card .input-field::placeholder {
+    color: rgba(17,24,39,0.5);
+  }
+  
+  .card {
+    background: var(--card-bg);
+    border-color: var(--card-border);
+    color: inherit;
+    @apply rounded-xl shadow-sm p-6 transition-all duration-200;
+  }
+
+  .animate-typing {
+    width: 0;
+    animation: typing 3.5s steps(40, end) forwards, blink .75s step-end infinite;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 1s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scale-in 0.6s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.6s ease-out forwards;
+  }
+
+  .logout-btn {
+    @apply relative overflow-hidden transition-all duration-300;
+    @apply hover:text-red-500;
+  }
+
+  .logout-btn::after {
+    @apply content-[''] absolute bottom-0 left-0 w-full h-0.5 bg-red-500 transform scale-x-0 transition-transform duration-300 origin-right;
+  }
+
+  .logout-btn:hover::after {
+    @apply transform scale-x-100 origin-left;
+  }
+
+  .hover-button {
+    @apply relative overflow-hidden transition-all duration-300;
+  }
+
+  .hover-button::before {
+    @apply content-[''] absolute inset-0 bg-white/10 transform -translate-x-full transition-transform duration-300 ease-out;
+  }
+
+  .hover-button:hover::before {
+    @apply transform translate-x-0;
+  }
+}
+
+/* Dark mode overrides for consistent text colors */
+.dark {
+  color: #ffffff !important;
+}
+
+.dark .text-secondary-900,
+.dark .text-secondary-800,
+.dark .text-secondary-700,
+.dark .text-secondary-600,
+.dark .text-secondary-500,
+.dark .text-secondary-400,
+.dark .text-secondary-300,
+.dark .text-secondary-200,
+.dark .text-secondary-100 {
+  color: #ffffff !important;
+}
+
+.dark .text-muted,
+.dark .text-secondary-600 {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Ensure inputs and form fields are readable in dark mode */
+.dark input:not([type="submit"]),
+.dark select,
+.dark textarea {
+  color: #000000;
+  background: #ffffff;
+}
+
+
+
+
