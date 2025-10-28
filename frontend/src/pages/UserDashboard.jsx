@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import axios from 'axios'
+import axios from '../config/axios'
 import { BookOpen, Calendar, Clock, User, TrendingUp } from 'lucide-react'
 import toast from 'react-hot-toast'
 
@@ -95,7 +95,7 @@ const UserDashboard = () => {
               <div className="ml-4">
                 <p className="text-sm font-medium text-secondary-600">Books Due Soon</p>
                 <p className="text-2xl font-bold text-secondary-900">
-                  {borrowedBooks.filter(book => 
+                  {borrowedBooks.filter(book =>
                     getDaysUntilDue(book.dueDate) <= 3 && getDaysUntilDue(book.dueDate) >= 0
                   ).length}
                 </p>
@@ -149,9 +149,10 @@ const UserDashboard = () => {
           ) : (
             <div className="space-y-4">
               {borrowedBooks.map((borrowedBook) => {
+                if (!borrowedBook.book) return null // Skip if book data is missing
                 const daysUntilDue = getDaysUntilDue(borrowedBook.dueDate)
                 const isOverdueBook = isOverdue(borrowedBook.dueDate)
-                
+
                 return (
                   <div
                     key={borrowedBook._id}
@@ -182,18 +183,17 @@ const UserDashboard = () => {
                             </div>
                           </div>
                           <div className="text-right">
-                            <div className={`px-3 py-1 rounded-full text-sm font-medium mb-2 ${
-                              isOverdueBook
+                            <div className={`px-3 py-1 rounded-full text-sm font-medium mb-2 ${isOverdueBook
                                 ? 'bg-red-100 text-red-800'
                                 : daysUntilDue <= 3
-                                ? 'bg-yellow-100 text-yellow-800'
-                                : 'bg-green-100 text-green-800'
-                            }`}>
+                                  ? 'bg-yellow-100 text-yellow-800'
+                                  : 'bg-green-100 text-green-800'
+                              }`}>
                               {isOverdueBook
                                 ? `Overdue by ${Math.abs(daysUntilDue)} days`
                                 : daysUntilDue <= 3
-                                ? `Due in ${daysUntilDue} days`
-                                : `Due in ${daysUntilDue} days`
+                                  ? `Due in ${daysUntilDue} days`
+                                  : `Due in ${daysUntilDue} days`
                               }
                             </div>
                             <button

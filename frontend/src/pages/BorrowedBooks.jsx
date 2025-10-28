@@ -186,6 +186,7 @@ const BorrowedBooks = () => {
             ) : (
               <div className="space-y-4">
                 {borrowedBooks.map((borrowedBook) => {
+                  if (!borrowedBook.book) return null
                   const daysUntilDue = getDaysUntilDue(borrowedBook.dueDate)
                   const isOverdueBook = isOverdue(borrowedBook.dueDate)
                   

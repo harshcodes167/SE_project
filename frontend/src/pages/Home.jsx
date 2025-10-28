@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
+import axios from '../config/axios'
 import { Search, BookOpen, Users, Calendar, Filter } from 'lucide-react'
 import toast from 'react-hot-toast'
 
@@ -26,15 +26,24 @@ const Home = () => {
       if (authorFilter) params.append('author', authorFilter)
       
       const response = await axios.get(`/api/books?${params}`)
-      setBooks(response.data.books)
       
-      // Extract unique categories and authors
-      const uniqueCategories = [...new Set(response.data.books.map(book => book.category))]
-      const uniqueAuthors = [...new Set(response.data.books.map(book => book.author))]
-      setCategories(uniqueCategories)
-      setAuthors(uniqueAuthors)
+      if (response.data && Array.isArray(response.data.books)) {
+        setBooks(response.data.books)
+        
+        // Extract unique categories and authors
+        const uniqueCategories = [...new Set(response.data.books.map(book => book?.category).filter(Boolean))]
+        const uniqueAuthors = [...new Set(response.data.books.map(book => book?.author).filter(Boolean))]
+        setCategories(uniqueCategories)
+        setAuthors(uniqueAuthors)
+      } else {
+        setBooks([])
+        console.error('Invalid response format:', response.data)
+        toast.error('Error loading books. Please try again.')
+      }
     } catch (error) {
-      toast.error('Failed to fetch books')
+      console.error('Error fetching books:', error)
+      setBooks([])
+      toast.error(error.response?.data?.message || 'Failed to fetch books')
     } finally {
       setLoading(false)
     }
