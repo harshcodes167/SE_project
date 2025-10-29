@@ -8,33 +8,31 @@
   }
 }
 
-/* Theme variables (light by default). Toggle .dark on <html> to switch */
+
 :root {
-  --page-bg: #f8fafc; /* matches secondary-50 */
+  --page-bg: #f8fafc; 
   --card-bg: #ffffff;
-  --card-border: #e6eef6; /* light border */
-  --text-primary: #0f172a; /* secondary-900 */
+  --card-border: #e6eef6; 
+  --text-primary: #0f172a; 
   --nav-bg: rgb(51 65 85);
 }
 
 .dark {
-  /* Use specific grey for background and black for cards as requested */
-  --page-bg: rgb(74 78 82); /* specific grey background */
-  --card-bg: #000000; /* pure black for cards and dropdowns */
+  --page-bg: rgb(74 78 82); 
+  --card-bg: #000000;
   --card-border: rgba(255,255,255,0.1);
-  --text-primary: #ffffff; /* pure white text */
+  --text-primary: #ffffff;
   --text-muted: rgba(255,255,255,0.85);
-  --nav-bg: #000000; /* pure black navbar */
-  --dropdown-bg: #000000; /* pure black dropdowns */
+  --nav-bg: #000000;
+  --dropdown-bg: #000000; 
 }
 
-/* Base dark mode styles for document and text */
+
 .dark body {
   background: var(--page-bg);
   color: var(--text-primary);
 }
 
-/* Dark mode styles for cards, nav menus, and dropdowns */
 .dark .card,
 .dark [role="dialog"],
 .dark .dropdown-content {
@@ -44,12 +42,11 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3) !important;
 }
 
-/* Base dark mode background for all main content areas */
 .dark .min-h-screen {
   background-color: rgb(74 78 82) !important;
 }
 
-/* Stat card badges and icons in dark mode */
+
 .dark .bg-primary-100,
 .dark .bg-green-100,
 .dark .bg-red-100 {
@@ -62,7 +59,7 @@
   color: var(--text-primary) !important;
 }
 
-/* Override all secondary text colors in dark mode for better contrast */
+
 .dark .text-secondary-900,
 .dark .text-secondary-800,
 .dark .text-secondary-700 {
@@ -75,7 +72,7 @@
   color: var(--text-muted) !important;
 }
 
-/* Status badges in dark mode */
+
 .dark .bg-green-100.text-green-800 {
   background: rgba(34, 197, 94, 0.2) !important;
   color: rgb(134, 239, 172) !important;
@@ -153,12 +150,9 @@
     @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent focus:shadow-lg;
   }
 
-  /* Make search/filter inputs use a white background with black text so they are readable
-     when the surrounding card or navbar is dark. We scope this to .search-card (used
-     on the home filters container) to avoid changing inputs globally. */
   .search-card .input-field {
     background: #ffffff;
-    color: #111827; /* black-ish for inputs */
+    color: #111827;
     border-color: rgba(15, 23, 42, 0.06);
   }
 
@@ -216,7 +210,6 @@
   }
 }
 
-/* Dark mode overrides for consistent text colors */
 .dark {
   color: #ffffff !important;
 }
@@ -238,7 +231,7 @@
   color: rgba(255, 255, 255, 0.85) !important;
 }
 
-/* Ensure inputs and form fields are readable in dark mode */
+
 .dark input:not([type="submit"]),
 .dark select,
 .dark textarea {
