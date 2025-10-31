@@ -1,15 +1,13 @@
 const Book = require('../models/Book');
 
-// @desc    Get all books
-// @route   GET /api/books
-// @access  Public
+
 const getBooks = async (req, res) => {
   try {
     const { search, category, author, page = 1, limit = 10 } = req.query;
     
     let query = {};
     
-    // Search functionality
+    
     if (search) {
       query.$or = [
         { title: { $regex: search, $options: 'i' } },
@@ -47,9 +45,7 @@ const getBooks = async (req, res) => {
   }
 };
 
-// @desc    Get single book
-// @route   GET /api/books/:id
-// @access  Public
+
 const getBook = async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
@@ -73,9 +69,7 @@ const getBook = async (req, res) => {
   }
 };
 
-// @desc    Create new book
-// @route   POST /api/books
-// @access  Private/Admin
+
 const createBook = async (req, res) => {
   try {
     const book = await Book.create(req.body);
@@ -92,9 +86,7 @@ const createBook = async (req, res) => {
   }
 };
 
-// @desc    Update book
-// @route   PUT /api/books/:id
-// @access  Private/Admin
+
 const updateBook = async (req, res) => {
   try {
     const oldBook = await Book.findById(req.params.id);
@@ -105,7 +97,7 @@ const updateBook = async (req, res) => {
       });
     }
 
-    // If total copies is being updated, calculate the change in available copies
+   
     if (req.body.totalCopies) {
       const diff = req.body.totalCopies - oldBook.totalCopies;
       req.body.availableCopies = Math.max(0, oldBook.availableCopies + diff);
@@ -139,9 +131,7 @@ const updateBook = async (req, res) => {
   }
 };
 
-// @desc    Delete book
-// @route   DELETE /api/books/:id
-// @access  Private/Admin
+
 const deleteBook = async (req, res) => {
   try {
     const book = await Book.findByIdAndDelete(req.params.id);
@@ -165,9 +155,7 @@ const deleteBook = async (req, res) => {
   }
 };
 
-// @desc    Get book statistics
-// @route   GET /api/books/stats
-// @access  Private/Admin
+
 const getBookStats = async (req, res) => {
   try {
     const totalBooks = await Book.countDocuments();
