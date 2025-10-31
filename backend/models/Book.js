@@ -59,14 +59,13 @@ const bookSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Update available copies when total copies change
 bookSchema.pre('save', function(next) {
   if (this.isModified('totalCopies')) {
-    // Calculate the difference between new and old total copies
+    
     const oldTotal = this.get('totalCopies', { getters: false });
     const diff = this.totalCopies - (oldTotal || 0);
     
-    // Add the difference to available copies (but don't go below 0)
+  
     this.availableCopies = Math.max(0, (this.availableCopies || 0) + diff);
   }
   next();
