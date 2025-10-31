@@ -9,7 +9,7 @@ const borrowBook = async (req, res) => {
     const { bookId } = req.body;
     const userId = req.user.id;
 
-    // Check if user already has 3 books borrowed
+    
     const user = await User.findById(userId);
     const activeBorrows = user.borrowedBooks.filter(borrow => !borrow.returned);
     
@@ -20,7 +20,7 @@ const borrowBook = async (req, res) => {
       });
     }
 
-    // Check if user already borrowed this book
+    
     const alreadyBorrowed = activeBorrows.find(borrow => 
       borrow.book.toString() === bookId
     );
@@ -32,7 +32,7 @@ const borrowBook = async (req, res) => {
       });
     }
 
-    // Check if book exists and is available
+    
     const book = await Book.findById(bookId);
     if (!book) {
       return res.status(404).json({
@@ -48,14 +48,14 @@ const borrowBook = async (req, res) => {
       });
     }
 
-    // Add book to user's borrowed books
+    
     user.borrowedBooks.push({
       book: bookId,
       borrowedDate: new Date(),
-      dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000) // 14 days from now
+      dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000) 
     });
 
-    // Update book availability
+    
     book.availableCopies -= 1;
     if (book.availableCopies === 0) {
       book.availability = false;
@@ -96,10 +96,10 @@ const returnBook = async (req, res) => {
       });
     }
 
-    // Mark book as returned
+    
     borrowedBook.returned = true;
 
-    // Update book availability
+    
     const book = await Book.findById(bookId);
     book.availableCopies += 1;
     book.availability = true;
